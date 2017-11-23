@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="原文：https://blog.nimbleci.com/2016/11/17/whats-coming-in-docker-1-13/翻译：laiyuXuan学习docker过程中看到这篇文章，介绍了docker1.13中的新功能，觉得不错就翻译了过来，若有错漏欢迎拍砖。  Docker 1.13 马上就要发布了，下">
+<meta name="keywords" content="docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 1.13 新特性top10">
+<meta property="og:url" content="https://laiyuxuan.github.io/2017/01/13/docker-top-10/index.html">
+<meta property="og:site_name" content="xuan&#39;s blog">
+<meta property="og:description" content="原文：https://blog.nimbleci.com/2016/11/17/whats-coming-in-docker-1-13/翻译：laiyuXuan学习docker过程中看到这篇文章，介绍了docker1.13中的新功能，觉得不错就翻译了过来，若有错漏欢迎拍砖。  Docker 1.13 马上就要发布了，下面是最值得期待的新功能top 10:  Docker stacks 结束实验阶">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-23T08:38:15.836Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker 1.13 新特性top10">
+<meta name="twitter:description" content="原文：https://blog.nimbleci.com/2016/11/17/whats-coming-in-docker-1-13/翻译：laiyuXuan学习docker过程中看到这篇文章，介绍了docker1.13中的新功能，觉得不错就翻译了过来，若有错漏欢迎拍砖。  Docker 1.13 马上就要发布了，下面是最值得期待的新功能top 10:  Docker stacks 结束实验阶">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://laiyuxuan.github.io/2017/01/13/docker-top-10/"/>
+
+
+
+
+
+  <title>Docker 1.13 新特性top10 | xuan's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xuan's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://laiyuxuan.github.io/2017/01/13/docker-top-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laiyuXuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xuan's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Docker 1.13 新特性top10</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-13T16:34:04+08:00">
+                2017-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/其他/" itemprop="url" rel="index">
+                    <span itemprop="name">其他</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>原文：<a href="https://blog.nimbleci.com/2016/11/17/whats-coming-in-docker-1-13/" target="_blank" rel="noopener">https://blog.nimbleci.com/2016/11/17/whats-coming-in-docker-1-13/</a><br>翻译：laiyuXuan<br>学习docker过程中看到这篇文章，介绍了docker1.13中的新功能，觉得不错就翻译了过来，若有错漏欢迎拍砖。</p>
+</blockquote>
+<p>Docker 1.13 马上就要发布了，下面是最值得期待的新功能top 10:</p>
+<ul>
+<li>Docker stacks 结束实验阶段，正式发布<br>从docker-compose文件部署docker stacks</li>
+<li>密钥管理</li>
+<li>新加入针对swarm集群的 ‘-attachable’ 参数</li>
+<li>插件功能结束实验阶段，正式发布</li>
+<li>通过docker daemon -experimental来开启处于实验阶段的功能</li>
+<li>在service update中 加入 -force参数</li>
+<li>在docker service create中加入-port参数</li>
+<li>在创建镜像时缓存层(layers)</li>
+<li>其他改进</li>
+</ul>
+<h3 id="Docker-stacks-结束实验阶段，正式发布"><a href="#Docker-stacks-结束实验阶段，正式发布" class="headerlink" title="Docker stacks 结束实验阶段，正式发布"></a>Docker stacks 结束实验阶段，正式发布</h3><p>如果你有关注docker的最新发展，那么你应该知道”dab”（distributed application bundle）文件。他可以从一个docker-compose.yml文件生成，用来定义一个docker swarm集群的一个或者多个services。对于自动化部署来说这是非常便利的，因为不再需要通过docker service create和docker service update命令来更新集群中service的定义。</p>
+<p><strong>延伸阅读</strong><a href="https://blog.nimbleci.com/2016/09/14/docker-stacks-and-why-we-need-them/" target="_blank" rel="noopener">Docker Stacks and Why We Need Them</a></p>
+<p>随着docker 1.13的发布，docker stacks 现已结束实验阶段，所有人都可以用上这个功能。</p>
+<h3 id="从docker-compose文件部署docker-stacks"><a href="#从docker-compose文件部署docker-stacks" class="headerlink" title="从docker-compose文件部署docker stacks"></a>从docker-compose文件部署docker stacks</h3><p>以往若需要使用docker stack deploy命令，我们必须先生成一个.dab文件。在docker 1.13中，不再需要把docker-compose.yml文件转换成一个.dab文件，直接使用docker-compose.yml即可。下面是具体用法：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy \</span><br><span class="line">    --compose-file ./docker-compose.yml \</span><br><span class="line">    mystack</span><br></pre></td></tr></table></figure>
+<p>这样就可以在swarm集群中通过docker-compose.yml中的定义创建/更新services。</p>
+<h1 id="密钥管理"><a href="#密钥管理" class="headerlink" title="密钥管理"></a>密钥管理</h1><p>密钥管理让我们可以把密钥保存到swarm集群中，并给相应的services分配使用特定密钥的权限。</p>
+<p>四个新加入的指令：</p>
+<ul>
+<li>docker secret create</li>
+<li>docker secret insepect</li>
+<li>docker secret ls</li>
+<li>docker secret rm </li>
+</ul>
+<p>举个栗子，首先把一个密钥加入到swarm集群中：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo <span class="string">"my-sensitive-password"</span> | docker secret create login-password</span><br></pre></td></tr></table></figure>
+<p>然后启动一个带密钥的service</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker service create \</span><br><span class="line">    --name myapp \</span><br><span class="line">    --secret login-password \</span><br><span class="line">    ubuntu</span><br></pre></td></tr></table></figure>
+<p>这个密钥会被挂载到容器内的<code>/run/secrets/login-password</code>路径下</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker exec -it myapp cat /run/secrets/login-password</span><br><span class="line">my-sensitive-password</span><br></pre></td></tr></table></figure>
+<p>现在我们可以使用这个功能来给运行中的services提供密钥，但是仅限docker service模式下。通过docker run来启动的容器暂时不支持该功能，不过已经在开发中了。同样在开发中的还有在创建时加入密钥的功能。</p>
+<p>更多详情可以查看添加了这个功能的<a href="https://github.com/docker/docker/pull/27794" target="_blank" rel="noopener">PR</a></p>
+<h3 id="新加入针对swarm集群的-‘-attachable’-参数"><a href="#新加入针对swarm集群的-‘-attachable’-参数" class="headerlink" title="新加入针对swarm集群的 ‘-attachable’ 参数"></a>新加入针对swarm集群的 ‘-attachable’ 参数</h3><p>新加入到docker network create中的–attachable参数可以把通过docker run启动的单个容器附属到swarm集群的网络中，从而与集群中的services进行通信。在以往这是没办法做到的，这对于需要和swarm集群中的services进行通信的单一任务来说非常便利，比如备份、手动debug。</p>
+<p>下面是具体的用法：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker network create \</span><br><span class="line">    --driver overlay \</span><br><span class="line">    --attachable \</span><br><span class="line">    my-attachable-network</span><br></pre></td></tr></table></figure>
+<p>接下来可以以下使用<code>docker run</code>指令连接到这个网络：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -it \</span><br><span class="line">    --net my-attachable-network \</span><br><span class="line">    ping google.com</span><br></pre></td></tr></table></figure>
+<p>引入这个功能的PR可以参考<a href="https://github.com/docker/docker/pull/25962" target="_blank" rel="noopener">这里</a></p>
+<h3 id="插件功能结束实验阶段，正式发布"><a href="#插件功能结束实验阶段，正式发布" class="headerlink" title="插件功能结束实验阶段，正式发布"></a>插件功能结束实验阶段，正式发布</h3><p>Docker的插件功能之前一直处于实验阶段，在docker 1.13 版本中终于结束实验阶段，所有用户都可以使用这个功能了。</p>
+<p>插件功能使得其他应用可以嵌入docker，增强docker的功能。当当前存在的插件如：Flocker， Weave</p>
+<p>这里可以找到更多的插件。</p>
+<h3 id="通过docker-daemon-experimental来开启处于实验阶段的功能"><a href="#通过docker-daemon-experimental来开启处于实验阶段的功能" class="headerlink" title="通过docker daemon -experimental来开启处于实验阶段的功能"></a>通过<code>docker daemon -experimental</code>来开启处于实验阶段的功能</h3><p>现在稳定的docker版本中会同时包含了尚处于实验阶段的功能。以往若要使用这些功能需要另外下载一个特定的版本，现在我们只需要在启动docker daemon的时候加上–experimental参数即可。</p>
+<p>引入这个功能的PR可以参考<a href="https://github.com/docker/docker/pull/27223" target="_blank" rel="noopener">这里</a></p>
+<h3 id="在service-update中-加入-force参数"><a href="#在service-update中-加入-force参数" class="headerlink" title="在service update中 加入-force参数"></a>在<code>service update</code>中 加入<code>-force</code>参数</h3><p>如果你在非开发环境使用 docker 1.12 版本的swarm 集群，可能会有一些问题，比如当有一个新的节点加入到集群中，是没有办法重新分配swarm集群中的services的。</p>
+<p>新加入的<code>--force</code>参数会强制重新拉取镜像以及重启容器。只要设置了<code>--update-parallelism 1</code>和<code>--update-deplay 5s</code>，那么每个容器会逐个重启，并且每个容器之间会有5s的间隔，保证无缝更新（Rolling updates）。</p>
+<p>Note：以往使用<code>docker service update --image myimage:latest</code>命令时会有一个bug，无法拉取到最新的tag的镜像。这个bug已经被修复了，所以只要运行<code>service update</code>命令即可让镜像更新到最新的版本（无需加上<code>--force</code>参数）</p>
+<p>引入这个功能的PR可以参考<a href="https://github.com/docker/docker/pull/27596" target="_blank" rel="noopener">这里</a></p>
+<h3 id="在docker-service-create中加入-port参数"><a href="#在docker-service-create中加入-port参数" class="headerlink" title="在docker service create中加入-port参数"></a>在<code>docker service create</code>中加入<code>-port</code>参数</h3><p>在<code>docker service create</code>中新加入的<code>--port</code>参数是用来取代<code>--publish</code>参数的。<br>旧的用法如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker service create --publish <span class="number">8080</span>:<span class="number">80</span> my-service</span><br></pre></td></tr></table></figure>
+<p>如上所示，通过这样可以把swarm集群中每个节点里外部可以访问的8080端口映射到容器内的80端口。</p>
+<p><code>--port</code>参数遵循了“csv”格式规范（参考<code>--mount</code>参数）。这样使得可以在一个<code>--port</code>参数中进行多项设定，而不是分别使用多个参数。下面我们来看一下用<code>--port</code>参数进行设定的一个栗子：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker service create \</span><br><span class="line">    --name my-service \</span><br><span class="line">    --port mode=ingress,target=<span class="number">80</span>,published=<span class="number">8080</span>,protocol=tcp</span><br></pre></td></tr></table></figure>
+<p>这种把多项设定放在一个参数内进行的语法显得更加灵活以及更加清晰。</p>
+<h3 id="在创建镜像时缓存层-layers"><a href="#在创建镜像时缓存层-layers" class="headerlink" title="在创建镜像时缓存层(layers)"></a>在创建镜像时缓存层(layers)</h3><p>对于时常在不同的服务器上构建镜像的情况，这是一个持续集成上重要的更新。 目前为止并没有一个比较简便的方法可以在多个服务器上共享镜像的构造层（build layers），导致每一次构建镜像时都需要把所有层都构建一遍。在近期版本的docker中，处于安全问题的考虑，一次简单的拉取是无法拉取到缓存的。因为我们无法确保我们所拉取回来的镜像就是我们所期望的那个镜像，有可能已经被篡改了，具体的issuce可以参考这里（注：在早期版本的docker中，构建镜像时会出现“using cache…”，当时docker默认会使用缓存来进行镜像的构建。在最近的版本中（1.10+），这个功能被禁用了，出于以上安全性问题的考虑。在本次更新中会加入<code>--cache-from</code>参数来让使用者选择是否基于缓存构建镜像。）</p>
+<p>具体用法：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull myimage:v1.<span class="number">0</span></span><br><span class="line">docker build --cache-from myimage:v1.<span class="number">0</span> -t myimage:v1.<span class="number">1</span> .</span><br></pre></td></tr></table></figure>
+<p>引入这个功能的PR可以参考<a href="https://github.com/docker/docker/pull/26839" target="_blank" rel="noopener">这里</a></p>
+<h3 id="其他改进"><a href="#其他改进" class="headerlink" title="其他改进"></a>其他改进</h3><p>1.13版本修复了成吨的bug以及带来了大量的改进，下面是一些上文没有提及但是也较为重要的地方：</p>
+<ul>
+<li>Dockerfiles中的MAITAINER 指令已经被弃用了，现在可以使用labels来记录maintainer。</li>
+<li>新加入了docker service logs命令来查看service中的日志（实验阶段）</li>
+<li>在docker service update中加入–rollback参数来回滚到上一个版本。</li>
+<li>新版本的docker inspect命令可以可以用来查看各种各样的东西</li>
+<li>使用docker build –squash来合并镜像层</li>
+<li>使用docker system命令来清除不再使用的容器</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>通过以下命令可以使用最新的RC版本的Docker 1.13</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL https://test.docker.com/ | sh</span><br></pre></td></tr></table></figure>
+<p>（注：或直接在Docker github官网下载）</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总而言之，docker 1.13 带来了大量的新功能和bugfixes。随着<code>service update</code>命令的完善以及stacks功能的推出，在生产环境部署swarm集群也更加简便了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/16/maven-笔记/" rel="next" title="maven 笔记">
+                <i class="fa fa-chevron-left"></i> maven 笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/23/常用共识算法/" rel="prev" title="常用共识算法">
+                常用共识算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="laiyuXuan" />
+            
+              <p class="site-author-name" itemprop="name">laiyuXuan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-stacks-结束实验阶段，正式发布"><span class="nav-number">1.</span> <span class="nav-text">Docker stacks 结束实验阶段，正式发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从docker-compose文件部署docker-stacks"><span class="nav-number">2.</span> <span class="nav-text">从docker-compose文件部署docker stacks</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#密钥管理"><span class="nav-number"></span> <span class="nav-text">密钥管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新加入针对swarm集群的-‘-attachable’-参数"><span class="nav-number">1.</span> <span class="nav-text">新加入针对swarm集群的 ‘-attachable’ 参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件功能结束实验阶段，正式发布"><span class="nav-number">2.</span> <span class="nav-text">插件功能结束实验阶段，正式发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过docker-daemon-experimental来开启处于实验阶段的功能"><span class="nav-number">3.</span> <span class="nav-text">通过docker daemon -experimental来开启处于实验阶段的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在service-update中-加入-force参数"><span class="nav-number">4.</span> <span class="nav-text">在service update中 加入-force参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在docker-service-create中加入-port参数"><span class="nav-number">5.</span> <span class="nav-text">在docker service create中加入-port参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在创建镜像时缓存层-layers"><span class="nav-number">6.</span> <span class="nav-text">在创建镜像时缓存层(layers)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他改进"><span class="nav-number">7.</span> <span class="nav-text">其他改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">8.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laiyuXuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

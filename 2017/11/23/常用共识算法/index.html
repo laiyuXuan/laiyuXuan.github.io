@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="共识算法,区块链,分布式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Proof of Work 给予一个随机数，在其前面补齐N位0，然后首个求出一个解使得hash之后等于这个值的矿工将获得这个新增区块的记账权，同时给予该矿工一定的奖励。  Proof of Stake 获得下一个区块记账权的概率随着拥有的代币的数量和时间增长而增长，同时根据持有的代币来返还利息。  Delegated ">
+<meta name="keywords" content="共识算法,区块链,分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用共识算法">
+<meta property="og:url" content="https://laiyuxuan.github.io/2017/11/23/常用共识算法/index.html">
+<meta property="og:site_name" content="xuan&#39;s blog">
+<meta property="og:description" content="Proof of Work 给予一个随机数，在其前面补齐N位0，然后首个求出一个解使得hash之后等于这个值的矿工将获得这个新增区块的记账权，同时给予该矿工一定的奖励。  Proof of Stake 获得下一个区块记账权的概率随着拥有的代币的数量和时间增长而增长，同时根据持有的代币来返还利息。  Delegated Proof of Stake 通过投票产生代表，获得投票数前100位的代表按照既">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-23T08:38:56.578Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用共识算法">
+<meta name="twitter:description" content="Proof of Work 给予一个随机数，在其前面补齐N位0，然后首个求出一个解使得hash之后等于这个值的矿工将获得这个新增区块的记账权，同时给予该矿工一定的奖励。  Proof of Stake 获得下一个区块记账权的概率随着拥有的代币的数量和时间增长而增长，同时根据持有的代币来返还利息。  Delegated Proof of Stake 通过投票产生代表，获得投票数前100位的代表按照既">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://laiyuxuan.github.io/2017/11/23/常用共识算法/"/>
+
+
+
+
+
+  <title>常用共识算法 | xuan's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xuan's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://laiyuxuan.github.io/2017/11/23/常用共识算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="laiyuXuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xuan's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">常用共识算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-23T16:04:07+08:00">
+                2017-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Blockchain/" itemprop="url" rel="index">
+                    <span itemprop="name">Blockchain</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Proof-of-Work"><a href="#Proof-of-Work" class="headerlink" title="Proof of Work"></a>Proof of Work</h3><blockquote>
+<p>给予一个随机数，在其前面补齐N位0，然后首个求出一个解使得hash之后等于这个值的矿工将获得这个新增区块的记账权，同时给予该矿工一定的奖励。</p>
+</blockquote>
+<h3 id="Proof-of-Stake"><a href="#Proof-of-Stake" class="headerlink" title="Proof of Stake"></a>Proof of Stake</h3><blockquote>
+<p>获得下一个区块记账权的概率随着拥有的代币的数量和时间增长而增长，同时根据持有的代币来返还利息。</p>
+</blockquote>
+<h3 id="Delegated-Proof-of-Stake"><a href="#Delegated-Proof-of-Stake" class="headerlink" title="Delegated Proof of Stake"></a>Delegated Proof of Stake</h3><blockquote>
+<p>通过投票产生代表，获得投票数前100位的代表按照既定顺序轮流产生区块，且每个代表的投票权都是相等的；</p>
+</blockquote>
+<h3 id="Pratical-Byzentine-Fault-Torerence"><a href="#Pratical-Byzentine-Fault-Torerence" class="headerlink" title="Pratical Byzentine Fault Torerence"></a>Pratical Byzentine Fault Torerence</h3><blockquote>
+<p>假设f为拜占庭错误节点的个数，那么最少节点为2f + 1<br>一个共识的过程具体如下：</p>
+<ol>
+<li>客户端向leader发送一个请求，leader负责把该请求通过一次pre-prepare请求广播到所有的节点上，并附上本次请求的序列号n和当前的视图v；</li>
+<li>所有节点收到 2f + 1个pre-prepare请求并验证无误，则向所有节点广播prepare请求；</li>
+<li>所有节点收到 2f + 1个prepare请求并验证无误，则向所有节点广播commit请求；</li>
+<li>所有节点收到 2f + 1 个commit请求并验证无误，则执行客户端发送过来的请求，并向客户端返回执行结果；</li>
+<li>客户端收到 2f + 1个执行结果时，则表示该请求执行成功</li>
+</ol>
+</blockquote>
+<h3 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h3><blockquote>
+<p><code>（适用于非拜占庭模型，即可信环境）</code><br>参考<a href="https://lamport.azurewebsites.net/pubs/paxos-simple.pdf" target="_blank" rel="noopener">Paxos Made Simple</a><br>prepare 阶段</p>
+<ul>
+<li>proposer发出一个带有序号为n的proposal的prepare请求;</li>
+<li>acceptor收到该prepare请求，若已响应过序号大于n的prepare请求，则拒绝；若没有则响应该prepare请求并承诺不再接受其他序号小于n的prepare请求，且当曾经响应过序号小于n的prepare请求（值为v），顺带返回序号最大的v做为本次的共识value；</li>
+</ul>
+<p>accept 阶段</p>
+<ul>
+<li>proposer收到acceptor对其prepare请求的响应，选其返回的value做为共识的value（若没有则任选）；向acceptor发出accepte请求，带上其序列号n和值v</li>
+<li>acceptor收到一个序号为n的accept请求，若没有收到其他prepare请求序号大于n，则接受该accept请求。</li>
+</ul>
+</blockquote>
+<h3 id="Raft"><a href="#Raft" class="headerlink" title="Raft"></a>Raft</h3><blockquote>
+<p><a href="http://thesecretlivesofdata.com/raft/" target="_blank" rel="noopener">演示</a><br><a href="https://raft.github.io/raft.pdf" target="_blank" rel="noopener">论文</a><br>raft算法可以分成三个部分来理解：</p>
+<ul>
+<li><strong>Leader选举</strong><br>每个节点分别有三种状态：leader, candidate 和 follower。当集群中不存在leader时，follower会将自己变更成leader进行一轮选举，选举成功的则为leader。</li>
+<li><strong>日志复制</strong><br>leader收到客户端传来的指令时，负责把该指令复制到所有follower节点上</li>
+<li><strong>Safety</strong></li>
+</ul>
+<ol>
+<li><strong>被选举权限制</strong><br>只有与集群中大部分的节点同样’up-to-date’的candidate，才能获得选票；此外还保证了日志只会单向的从leader到follower，简化了复杂度；</li>
+<li><strong>拒绝提交遗留entry</strong><br>一个新的leader不会因为大部分节点包含了某个来自于上个term的entry而对其进行提交；</li>
+</ol>
+<p>raft的特性：</p>
+<ul>
+<li>在一个任期（term）内最多只能有一个leader;</li>
+<li>leader不会覆盖或者删除在其log中的entries;只会新增;</li>
+<li>在两个节点的log中，如果存在一个entry，他们的序号（index）和任期都相等，那么在这个index之前的所有log都是相同的;</li>
+<li>如果一个entry在term n 内已经被提交(committed)，那么n+1 term的leader都会有该entry;</li>
+<li>如果一个节点在index i 已经把entry提交，那么不会存在另外一个节点在同样的index i 提交了不同的entry</li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/共识算法/" rel="tag"># 共识算法</a>
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+            <a href="/tags/分布式/" rel="tag"># 分布式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/13/docker-top-10/" rel="next" title="Docker 1.13 新特性top10">
+                <i class="fa fa-chevron-left"></i> Docker 1.13 新特性top10
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="laiyuXuan" />
+            
+              <p class="site-author-name" itemprop="name">laiyuXuan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Proof-of-Work"><span class="nav-number">1.</span> <span class="nav-text">Proof of Work</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proof-of-Stake"><span class="nav-number">2.</span> <span class="nav-text">Proof of Stake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Delegated-Proof-of-Stake"><span class="nav-number">3.</span> <span class="nav-text">Delegated Proof of Stake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pratical-Byzentine-Fault-Torerence"><span class="nav-number">4.</span> <span class="nav-text">Pratical Byzentine Fault Torerence</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paxos"><span class="nav-number">5.</span> <span class="nav-text">Paxos</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Raft"><span class="nav-number">6.</span> <span class="nav-text">Raft</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">laiyuXuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
